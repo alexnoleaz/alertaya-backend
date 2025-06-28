@@ -1,0 +1,34 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  output:
+    ansi:
+      enabled: always
+  application:
+    name: AlertaYa Backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/alertaya
+    username: postgres
+    password: Example123@Secure!
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        "[format_sql]": true
+app:
+  jwt-bearer:
+    security-key: AlertaYa_C421AAEE0D114E9CXC42D9B9AE0E74C0BB8F3F8D5F2F5A1D1
+    issuer: AlertaYa
+    audience: AlertaYa
+
+logging:
+  level:
+    "[org.hibernate.sql]": debug
+    "[org.hibernate.type.descriptor.sql]": trace
