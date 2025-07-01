@@ -1,7 +1,5 @@
 package com.alertaya.backend.shared.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -24,7 +22,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableMethodSecurity
 public class ApplicationSecurityConfig {
 	private final JwtAuthenticationFilter authenticationFilter;
-	private final Logger logger = LoggerFactory.getLogger(ApplicationSecurityConfig.class);
 	private final ObjectMapper mapper;
 
 	public ApplicationSecurityConfig(JwtAuthenticationFilter authenticationFilter, ObjectMapper mapper) {
@@ -52,16 +49,13 @@ public class ApplicationSecurityConfig {
 	@Bean
 	AuthenticationEntryPoint authenticationEntryPoint() {
 		return (request, response, authException) -> {
-			logger.warn(authException.getMessage(), authException);
-
 			var message = (String) request.getAttribute("authException");
-			if (message == null)
-				message = "Unauthorized accesss.";
-
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			response.setContentType("application/json");
-			response.getWriter().write(mapper.writeValueAsString(
-					Response.error(message, HttpStatus.UNAUTHORIZED)));
+			if (message != null) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				response.setContentType("application/json");
+				response.getWriter().write(mapper.writeValueAsString(
+						Response.error(message, HttpStatus.UNAUTHORIZED)));
+			}
 		};
 	}
 }

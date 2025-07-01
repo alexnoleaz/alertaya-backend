@@ -12,7 +12,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/alertaya
     username: postgres
-    password: Example123@Secure!
+    password: <your-password>
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -22,11 +22,25 @@ spring:
     properties:
       hibernate:
         "[format_sql]": true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: <your-email>
+    password: <your-password>
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 app:
   jwt-bearer:
     security-key: AlertaYa_C421AAEE0D114E9CXC42D9B9AE0E74C0BB8F3F8D5F2F5A1D1
     issuer: AlertaYa
     audience: AlertaYa
+  openweather:
+    api-key: a4ee941c8c441d3d249c326f1510892b
 
 logging:
   level:

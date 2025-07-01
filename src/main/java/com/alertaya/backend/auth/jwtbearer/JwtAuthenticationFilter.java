@@ -29,14 +29,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		if (isPublicEndpoint(request)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		var token = resolveToken(request);
 		if (token == null) {
 			request.setAttribute("authException", "Token is missing or invalid.");
 			filterChain.doFilter(request, response);
 			return;
 		}
-
-		logger.info("Token: " + token);
 
 		try {
 			var claims = service.parse(token);
@@ -58,5 +61,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private String resolveToken(HttpServletRequest request) {
 		final var header = request.getHeader("Authorization");
 		return (header != null && header.startsWith("Bearer ")) ? header.substring(7) : null;
+	}
+
+	private boolean isPublicEndpoint(HttpServletRequest request) {
+		return request.getServletPath().startsWith("/api/auth");
 	}
 }
