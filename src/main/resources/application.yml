@@ -4,6 +4,8 @@ server:
       enabled: false
 
 spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE}
   output:
     ansi:
       enabled: always
@@ -12,7 +14,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/alertaya
     username: postgres
-    password: <your-password>
+    password: Example123@Secure!
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -25,8 +27,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: <your-email>
-    password: <your-password>
+    username: pruebasalertaya@gmail.com
+    password: ezsoiykauxnyffvj
     properties:
       mail:
         smtp:
